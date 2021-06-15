@@ -1,22 +1,15 @@
-import {
-  repository,
-} from '@loopback/repository';
-import {
-  param,
-  get,
-  getModelSchemaRef,
-} from '@loopback/rest';
-import {
-  Concert,
-  Location,
-} from '../models';
+import {authenticate} from '@loopback/authentication';
+import {repository} from '@loopback/repository';
+import {get, getModelSchemaRef, param} from '@loopback/rest';
+import {Concert, Location} from '../models';
 import {ConcertRepository} from '../repositories';
 
+@authenticate('jwt')
 export class ConcertLocationController {
   constructor(
     @repository(ConcertRepository)
     public concertRepository: ConcertRepository,
-  ) { }
+  ) {}
 
   @get('/concerts/{id}/location', {
     responses: {

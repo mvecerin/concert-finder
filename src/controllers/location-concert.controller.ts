@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -15,16 +16,15 @@ import {
   post,
   requestBody,
 } from '@loopback/rest';
-import {
-  Location,
-  Concert,
-} from '../models';
+import {Concert, Location} from '../models';
 import {LocationRepository} from '../repositories';
 
+@authenticate('jwt')
 export class LocationConcertController {
   constructor(
-    @repository(LocationRepository) protected locationRepository: LocationRepository,
-  ) { }
+    @repository(LocationRepository)
+    protected locationRepository: LocationRepository,
+  ) {}
 
   @get('/locations/{id}/concerts', {
     responses: {
@@ -61,11 +61,12 @@ export class LocationConcertController {
           schema: getModelSchemaRef(Concert, {
             title: 'NewConcertInLocation',
             exclude: ['id'],
-            optional: ['locationId']
+            optional: ['locationId'],
           }),
         },
       },
-    }) concert: Omit<Concert, 'id'>,
+    })
+    concert: Omit<Concert, 'id'>,
   ): Promise<Concert> {
     return this.locationRepository.concerts(id).create(concert);
   }
@@ -88,7 +89,8 @@ export class LocationConcertController {
       },
     })
     concert: Partial<Concert>,
-    @param.query.object('where', getWhereSchemaFor(Concert)) where?: Where<Concert>,
+    @param.query.object('where', getWhereSchemaFor(Concert))
+    where?: Where<Concert>,
   ): Promise<Count> {
     return this.locationRepository.concerts(id).patch(concert, where);
   }
@@ -103,7 +105,8 @@ export class LocationConcertController {
   })
   async delete(
     @param.path.string('id') id: string,
-    @param.query.object('where', getWhereSchemaFor(Concert)) where?: Where<Concert>,
+    @param.query.object('where', getWhereSchemaFor(Concert))
+    where?: Where<Concert>,
   ): Promise<Count> {
     return this.locationRepository.concerts(id).delete(where);
   }

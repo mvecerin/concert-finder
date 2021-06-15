@@ -1,6 +1,7 @@
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Location} from './location.model';
 import {Performer} from './performer.model';
+import {User} from './user.model';
 
 @model()
 export class Concert extends Entity {
@@ -50,6 +51,9 @@ export class Concert extends Entity {
     {mongodb: {dataType: 'ObjectId'}, required: true, hidden: true},
   )
   performerId: string;
+
+  @belongsTo(() => User, {}, {mongodb: {dataType: 'ObjectId'}, required: true})
+  userId: string;
 
   constructor(data?: Partial<Concert>) {
     super(data);

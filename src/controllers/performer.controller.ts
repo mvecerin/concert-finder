@@ -1,3 +1,4 @@
+import {authenticate} from '@loopback/authentication';
 import {
   Count,
   CountSchema,
@@ -7,23 +8,24 @@ import {
   Where,
 } from '@loopback/repository';
 import {
-  post,
-  param,
+  del,
   get,
   getModelSchemaRef,
+  param,
   patch,
+  post,
   put,
-  del,
   requestBody,
   response,
 } from '@loopback/rest';
 import {Performer} from '../models';
 import {PerformerRepository} from '../repositories';
 
+@authenticate('jwt')
 export class PerformerController {
   constructor(
     @repository(PerformerRepository)
-    public performerRepository : PerformerRepository,
+    public performerRepository: PerformerRepository,
   ) {}
 
   @post('/performers')
@@ -106,7 +108,8 @@ export class PerformerController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Performer, {exclude: 'where'}) filter?: FilterExcludingWhere<Performer>
+    @param.filter(Performer, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Performer>,
   ): Promise<Performer> {
     return this.performerRepository.findById(id, filter);
   }
