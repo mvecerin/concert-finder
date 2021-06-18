@@ -1,5 +1,6 @@
 node_modules
 npm-debug.log
 /dist
+client
 # Cache used by TypeScript's incremental build
 *.tsbuildinfo
