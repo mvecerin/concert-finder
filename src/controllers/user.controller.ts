@@ -3,6 +3,7 @@ import {
   Credentials,
   MyUserService,
   TokenServiceBindings,
+  User,
   UserRepository,
   UserServiceBindings,
 } from '@loopback/authentication-jwt';
@@ -15,10 +16,10 @@ import {
   requestBody,
   SchemaObject,
 } from '@loopback/rest';
-import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
+import {SecurityBindings, UserProfile} from '@loopback/security';
 import {genSalt, hash} from 'bcryptjs';
 import _ from 'lodash';
-import {NewUserRequest, User} from '../models';
+import {NewUserRequest} from '../models';
 
 const CredentialsSchema: SchemaObject = {
   type: 'object',
@@ -75,7 +76,7 @@ export class UserController {
   })
   async login(
     @requestBody(CredentialsRequestBody) credentials: Credentials,
-  ): Promise<{token: string}> {
+  ): Promise<{token: string; user: UserProfile}> {
     // ensure the user exists, and the password is correct
     const user = await this.userService.verifyCredentials(credentials);
     // convert a User object into a UserProfile object (reduced set of properties)
@@ -83,7 +84,7 @@ export class UserController {
 
     // create a JSON Web Token based on the user profile
     const token = await this.jwtService.generateToken(userProfile);
-    return {token};
+    return {token, user: userProfile};
   }
 
   @authenticate('jwt')
@@ -104,8 +105,8 @@ export class UserController {
   async whoAmI(
     @inject(SecurityBindings.USER)
     currentUserProfile: UserProfile,
-  ): Promise<string> {
-    return currentUserProfile[securityId];
+  ): Promise<{user: UserProfile}> {
+    return {user: currentUserProfile};
   }
 
   @post('/signup', {

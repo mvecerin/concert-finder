@@ -1,4 +1,5 @@
 import {authenticate} from '@loopback/authentication';
+// import {authorize} from '@loopback/authorization';
 import {
   Count,
   CountSchema,
@@ -21,7 +22,7 @@ import {
 import {Concert} from '../models';
 import {ConcertRepository} from '../repositories';
 
-@authenticate('jwt')
+@authenticate()
 export class ConcertController {
   constructor(
     @repository(ConcertRepository)
@@ -116,6 +117,7 @@ export class ConcertController {
   @response(204, {
     description: 'Concert PATCH success',
   })
+  // @authorize({voters: [basicAuthorization]})
   async updateById(
     @param.path.string('id') id: string,
     @requestBody({
@@ -134,6 +136,7 @@ export class ConcertController {
   @response(204, {
     description: 'Concert PUT success',
   })
+  // @authorize({voters: [basicAuthorization]})
   async replaceById(
     @param.path.string('id') id: string,
     @requestBody() concert: Concert,
@@ -145,6 +148,7 @@ export class ConcertController {
   @response(204, {
     description: 'Concert DELETE success',
   })
+  // @authorize({voters: [basicAuthorization]})
   async deleteById(@param.path.string('id') id: string): Promise<void> {
     await this.concertRepository.deleteById(id);
   }

@@ -1,7 +1,7 @@
+import {User} from '@loopback/authentication-jwt';
 import {belongsTo, Entity, model, property} from '@loopback/repository';
 import {Location} from './location.model';
 import {Performer} from './performer.model';
-import {User} from './user.model';
 
 @model()
 export class Concert extends Entity {
@@ -41,18 +41,18 @@ export class Concert extends Entity {
   @belongsTo(
     () => Location,
     {},
-    {mongodb: {dataType: 'ObjectId'}, required: true, hidden: true},
+    {mongodb: {dataType: 'ObjectId'}, required: true},
   )
   locationId: string;
 
   @belongsTo(
     () => Performer,
     {},
-    {mongodb: {dataType: 'ObjectId'}, required: true, hidden: true},
+    {mongodb: {dataType: 'ObjectId'}, required: true},
   )
   performerId: string;
 
-  @belongsTo(() => User, {}, {mongodb: {dataType: 'ObjectId'}, required: true})
+  @belongsTo(() => User, {}, {required: true})
   userId: string;
 
   constructor(data?: Partial<Concert>) {

@@ -3,6 +3,10 @@
     {
       "type": "node",
       "request": "launch",
+      "console": "integratedTerminal",
+      "env": {
+        "DEBUG": "loopback:rest:*"
+      },
       "name": "Launch Program",
       "skipFiles": [
         "<node_internals>/**"

@@ -3,6 +3,7 @@ import {
   JWTAuthenticationComponent,
   UserServiceBindings,
 } from '@loopback/authentication-jwt';
+// import {AuthorizationComponent} from '@loopback/authorization';
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
@@ -49,9 +50,13 @@ export class ConcertFinderApplication extends BootMixin(
 
     // Mount authentication system
     this.component(AuthenticationComponent);
+    // registerAuthenticationStrategy(this, BasicAuthenticationStrategy);
     // Mount jwt component
     this.component(JWTAuthenticationComponent);
     // Bind datasource
     this.dataSource(DbDataSource, UserServiceBindings.DATASOURCE_NAME);
+
+    // this.component(AuthorizationComponent);
+    // this.component(LoggingComponent);
   }
 }
