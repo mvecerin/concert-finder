@@ -10,9 +10,9 @@ interface Props {
 }
 
 export const EditForm = ({toggle, concert}: Props) => {
-  const [values, handleChange, modify] = useForm({
+  const [values, handleChange, modify] = useForm<IConcert>({
     ...concert,
-    date: new Date(concert.date),
+    date: new Date(concert.date).toISOString().substr(0, 10),
   });
   const dispatch = useAppDispatch();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -3,7 +3,7 @@ export interface IUser {
   id?: string;
   username: string;
 }
-export interface IUserCredentials extends IUser {
+export interface IUserCredentials {
   password: string;
   email?: string;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import {addConcert} from '../../features/concert/concertSlice';
 import {useAppDispatch, useAppSelector, useForm} from '../hooks';
+import {IConcert} from '../interfaces';
 import {ConcertForm} from './ConcertForm';
 
 interface Props {
@@ -9,13 +10,13 @@ interface Props {
 
 export const AddForm = ({toggle}: Props) => {
   const {user} = useAppSelector(state => state.user);
-  const [values, handleChange, modify] = useForm({
+  const [values, handleChange, modify] = useForm<IConcert>({
     title: '',
     ticketPrice: 0,
     date: '',
     locationId: '',
     performerId: '',
-    userId: user?.id,
+    userId: user?.id!,
   });
   const dispatch = useAppDispatch();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

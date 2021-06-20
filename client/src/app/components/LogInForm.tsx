@@ -2,9 +2,10 @@ import React, {useState} from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {logIn} from '../../features/user/userSlice';
 import {useAppDispatch, useForm} from '../hooks';
+import {IUserCredentials} from '../interfaces';
 
 export const LogInForm = () => {
-  const [values, handleChange] = useForm({
+  const [values, handleChange] = useForm<IUserCredentials>({
     email: 'test@mail.com',
     password: 'testpassword',
   });

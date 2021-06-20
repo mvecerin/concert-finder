@@ -13,8 +13,8 @@ export const useToggle = () => {
   return [toggled, toggle] as const;
 };
 
-export const useForm = (initialValues: any) => {
-  const [values, setValues] = useState(initialValues);
+export const useForm = <T = void>(initialValues: T) => {
+  const [values, setValues] = useState<T>(initialValues);
 
   return [
     values,
@@ -25,5 +25,5 @@ export const useForm = (initialValues: any) => {
       });
     },
     setValues,
-  ];
+  ] as const;
 };
