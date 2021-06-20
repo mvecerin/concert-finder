@@ -99,26 +99,27 @@ export const {selectAll: selectAllConcerts, selectById: selectConcertById} =
 
 const getVisibilityFilter = (state: RootState, filter: IFilter) => filter;
 
+const selectByPerformer = (currentData: IConcert[], id: string) =>
+  currentData.filter(c => c.performerId === id);
+const selectByLocation = (currentData: IConcert[], id: string) =>
+  currentData.filter(c => c.locationId === id);
+const selectLessThanPrice = (currentData: IConcert[], price: number) =>
+  currentData.filter(c => c.ticketPrice! < price);
+
 export const getVisibleConcerts = createSelector(
-  [getVisibilityFilter, selectAllConcerts],
-  (visibilityFilter, concerts) => {
-    let filtered = [...concerts];
-    if (visibilityFilter.filterTicket) {
-      filtered = filtered.filter(
-        c => c.ticketPrice! < visibilityFilter.filterTicket,
-      );
+  getVisibilityFilter,
+  selectAllConcerts,
+  (filter, concerts) => {
+    if (filter.filterTicket) {
+      concerts = selectLessThanPrice(concerts, filter.filterTicket);
     }
-    if (visibilityFilter.filterPerformer) {
-      filtered = filtered.filter(
-        c => c.performerId === visibilityFilter.filterPerformer,
-      );
+    if (filter.filterPerformer) {
+      concerts = selectByPerformer(concerts, filter.filterPerformer);
     }
-    if (visibilityFilter.filterLocation) {
-      filtered = filtered.filter(
-        c => c.locationId === visibilityFilter.filterLocation,
-      );
+    if (filter.filterLocation) {
+      concerts = selectByLocation(concerts, filter.filterLocation);
     }
-    return filtered;
+    return concerts;
   },
 );
 

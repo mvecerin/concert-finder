@@ -1,9 +1,8 @@
 import React from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
-import {selectAllLocations} from '../../features/locations/locationSlice';
-import {selectAllPerformers} from '../../features/performers/performerSlice';
-import {useAppSelector} from '../hooks';
 import {IConcert} from '../interfaces';
+import {SelectLocations} from './SelectLocations';
+import {SelectPerformers} from './SelectPerformers';
 
 interface Props {
   id: string;
@@ -20,8 +19,6 @@ export const ConcertForm = ({
   modify,
   id,
 }: Props) => {
-  const locations = useAppSelector(selectAllLocations);
-  const performers = useAppSelector(selectAllPerformers);
   return (
     <Form id={id} onSubmit={onSubmit}>
       <FormGroup>
@@ -58,6 +55,7 @@ export const ConcertForm = ({
             })
           }
           required
+          defaultValue={values.date}
           type="date"
         />
       </FormGroup>
@@ -71,11 +69,7 @@ export const ConcertForm = ({
           value={values.locationId}
         >
           <option value="">Select</option>
-          {locations.map(location => (
-            <option key={location.id} value={location.id}>
-              {location.title}
-            </option>
-          ))}
+          <SelectLocations />
         </Input>
       </FormGroup>
       <FormGroup>
@@ -88,11 +82,7 @@ export const ConcertForm = ({
           value={values.performerId}
         >
           <option value="">Select</option>
-          {performers.map(performer => (
-            <option key={performer.id} value={performer.id}>
-              {performer.name}
-            </option>
-          ))}
+          <SelectPerformers />
         </Input>
       </FormGroup>
     </Form>

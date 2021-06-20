@@ -25,8 +25,8 @@ export const Filter = ({onChange}: Props) => {
         </Input>
       </Col>
       <Col>
-        <Label for="filterTicket">Ticket price less than</Label>
-        <Input type="number" name="filterTicket" onChange={onChange} />
+        <Label for="filterTicket">Price less than</Label>
+        <Input type="number" name="filterTicket" onBlur={onChange} />
       </Col>
     </Row>
   );

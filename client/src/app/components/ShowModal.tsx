@@ -41,12 +41,12 @@ export const ShowModal = ({modalLabel, formId, concert}: Props) => {
         {modalLabel}
       </Button>
       <ModalBS isOpen={modal} toggle={toggle}>
-        <ModalHeader>{modalLabel}</ModalHeader>
+        <ModalHeader className="bg-dark text-light">{modalLabel}</ModalHeader>
         <ModalBody>
           {concert ? getForm(formId, toggle, concert) : getForm(formId, toggle)}
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" type="submit" form={formId}>
+          <Button color="dark" type="submit" form={formId}>
             {modalLabel}
           </Button>
           <Button color="secondary" onClick={toggle}>
