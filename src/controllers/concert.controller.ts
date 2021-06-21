@@ -1,5 +1,4 @@
 import {authenticate} from '@loopback/authentication';
-// import {authorize} from '@loopback/authorization';
 import {
   Count,
   CountSchema,
@@ -21,6 +20,16 @@ import {
 } from '@loopback/rest';
 import {Concert} from '../models';
 import {ConcertRepository} from '../repositories';
+
+// const RESOURCE_NAME = 'concert';
+// const ACL = {
+//   'edit': {
+//     resource: `${RESOURCE_NAME}*`,
+//     scopes: ['edit'],
+//     allowedRoles: ['owner'],
+//     voters: [assignProjectInstanceId],
+//   }
+// };
 
 @authenticate()
 export class ConcertController {
@@ -117,7 +126,7 @@ export class ConcertController {
   @response(204, {
     description: 'Concert PATCH success',
   })
-  // @authorize({voters: [basicAuthorization]})
+  // @authorize(ACL.edit)
   async updateById(
     @param.path.string('id') id: string,
     @requestBody({
