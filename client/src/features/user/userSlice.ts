@@ -47,11 +47,11 @@ export const signUp = createAsyncThunk(
     }
   },
 );
-const logout = createAction('user/logout');
+export const userLogOut = createAction('user/logout');
 
 export const logOut = () => {
   localStorage.removeItem('token');
-  return logout();
+  return userLogOut();
 };
 
 const userSlice = createSlice({
@@ -67,7 +67,7 @@ const userSlice = createSlice({
           state.user = payload;
         },
       )
-      .addMatcher(isAnyOf(whoAmI.rejected, logout), state => {
+      .addMatcher(isAnyOf(whoAmI.rejected, userLogOut), state => {
         state.isAuth = false;
         state.user = null;
       });

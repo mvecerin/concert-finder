@@ -7,7 +7,7 @@ import {
 import concertReducer from '../features/concert/concertSlice';
 import locationReducer from '../features/locations/locationSlice';
 import performerReducer from '../features/performers/performerSlice';
-import userReducer from '../features/user/userSlice';
+import userReducer, {userLogOut} from '../features/user/userSlice';
 
 const combinedReducer = combineReducers({
   concerts: concertReducer,
@@ -18,7 +18,7 @@ const combinedReducer = combineReducers({
 
 // Reset store after sign out
 const rootReducer = (state: any, action: any) => {
-  if (action.type === 'user/logOut') {
+  if (action.type === userLogOut) {
     state = undefined;
   }
   return combinedReducer(state, action);
